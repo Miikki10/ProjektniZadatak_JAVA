@@ -3,17 +3,19 @@ package entities.vehicles;
 import java.math.BigDecimal;
 import java.util.Scanner;
 
-public class Car {
+public final class Car implements Vehicles{
     private static Integer nextId = 1;
 
     private final Integer id;
     private Integer year;
+    private String registration;
     private String brand, model;
     private BigDecimal pricePerDay;
     private boolean available;
 
     private Car(Builder builder){
         this.id = builder.id;
+        this.registration = builder.registration;
         this.brand = builder.brand;
         this.model = builder.model;
         this.year = builder.year;
@@ -24,6 +26,7 @@ public class Car {
     public static class Builder{
         private final Integer id;
         private Integer year;
+        private String registration;
         private String brand, model;
         private BigDecimal pricePerDay;
         private boolean available = true;//default vrijednost kada se instancira objekt
@@ -32,11 +35,10 @@ public class Car {
             this.id = nextId;
             nextId++;
         }
-        /*public Builder setId(Integer id) {
-            this.id = nextId;
-            nextId++;
+        public Builder setRegistration(String registration) {
+            this.registration = registration;
             return this;
-        }*/
+        }
         public Builder setYear(Integer year) {
             this.year = year;
             return this;
@@ -97,32 +99,13 @@ public class Car {
         this.available = available;
     }
 
-    /*public static Car inputCar(Scanner scanner){
+    @Override
+    public String getRegistration() {
+        return registration;
+    }
 
-        System.out.println("Brand: ");
-        String brand = scanner.nextLine();
+    public BigDecimal getPricePerDayRaw() {
+        return pricePerDay;
+    }
 
-        System.out.println("Model: ");
-        String model = scanner.nextLine();
-
-        System.out.println("Godina: ");
-        Integer godina = scanner.nextInt();
-        scanner.nextLine();
-
-        System.out.println("Cijena po danu: ");
-        BigDecimal pricePerDay = scanner.nextBigDecimal();
-        scanner.nextLine();
-
-        System.out.println("Status dostupnosti vozila (true/false): ");
-        boolean available = scanner.nextBoolean();
-        scanner.nextLine();
-
-        return new Car.Builder()
-                .setBrand(brand)
-                .setModel(model)
-                .setYear(godina)
-                .setPricePerDay(pricePerDay)
-                .setAvailable(available)
-                .build();
-    }*/
 }
