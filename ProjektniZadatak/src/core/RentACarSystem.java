@@ -2,7 +2,7 @@ package core;
 
 import entities.people.Client;
 import entities.people.Employee;
-import entities.records.Records;
+import entities.records.RecordStorage;
 import entities.vehicles.Booking;
 import entities.vehicles.Car;
 import services.BookingSystem;
@@ -12,11 +12,13 @@ import utilities.menus.SearchMenu;
 import java.util.Scanner;
 
 public class RentACarSystem {
-    private Client[] clients;
-    private Employee[]employees;
-    private Car[] cars;
-    private Booking[] bookings;
-    private Records[] records;
+    private static final int MAX_CAPACITY = 100;
+
+    private Client[] clients = new Client[MAX_CAPACITY];
+    private Employee[]employees = new Employee[MAX_CAPACITY];
+    private Car[] cars = new Car[MAX_CAPACITY];
+    private Booking[] bookings = new Booking[MAX_CAPACITY];
+    private RecordStorage recordStorage;
     private Scanner unos = new Scanner(System.in);
 
     public RentACarSystem(int capacity){
@@ -24,7 +26,7 @@ public class RentACarSystem {
         this.employees = new Employee[capacity];
         this.cars = new Car[capacity];
         this.bookings = new Booking[capacity];
-        this.records = new Records[capacity];
+        this.recordStorage = new RecordStorage();
     }
 
     public void initializeData(int count){
@@ -48,7 +50,7 @@ public class RentACarSystem {
                 employees,
                 cars,
                 bookings,
-                records
+                recordStorage
         );
 
         userBooking.makeBooking();

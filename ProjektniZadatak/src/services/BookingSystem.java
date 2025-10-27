@@ -2,32 +2,34 @@ package services;
 
 import entities.people.Client;
 import entities.people.Employee;
-import entities.records.Records;
+import entities.records.RecordStorage;
 import entities.vehicles.Booking;
 import entities.vehicles.Car;
 import utilities.input.BookingInputHandler;
 
-import java.awt.print.Book;
 import java.time.LocalDate;
 import java.util.Scanner;
 
 public class BookingSystem {
-    private Client[] clients;
-    private Employee[]employees;
-    private Car[] cars;
-    private Booking[] bookings;
-    private Records[] records;
+    private static final int MAX_CAPACITY = 100;
+
+    private Client[] clients = new Client[MAX_CAPACITY];
+    private Employee[]employees = new Employee[MAX_CAPACITY];
+    private Car[] cars = new Car[MAX_CAPACITY];
+    private Booking[] bookings = new Booking[MAX_CAPACITY];
+    //private RecordStorage[] records = new RecordStorage[MAX_CAPACITY];
+    private final RecordStorage storage;
     private int numberOfBookings;
     private Scanner unos = new Scanner(System.in);
 
-    public BookingSystem(Scanner scanner, int numberOfBookings, Client[] clients, Employee[] employees, Car[] cars, Booking[] bookings, Records[] records) {
+    public BookingSystem(Scanner scanner, int numberOfBookings, Client[] clients, Employee[] employees, Car[] cars, Booking[] bookings, RecordStorage storage) {
         this.unos = scanner;
         this.numberOfBookings = numberOfBookings;
         this.clients = clients;
         this.employees = employees;
         this.cars = cars;
         this.bookings = bookings;
-        this.records = records;
+        this.storage = storage;
     }
 
     public void makeBooking() {
@@ -48,7 +50,8 @@ public class BookingSystem {
             System.out.println("Unos podataka za rezervaciju");
             this.bookings[i] = BookingInputHandler.inputBooking(this.unos, bookingClient, bookingEmployee, bookingCar);
 
-            this.records[i] = new Records(this.bookings[i], LocalDate.now());
+            //this.records[i] = new RecordStorage(this.bookings[i], LocalDate.now());
+            this.storage.addPermanentRecord(this.bookings[i]);
         }
     }
 }
