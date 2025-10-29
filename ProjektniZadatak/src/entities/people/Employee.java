@@ -17,16 +17,4 @@ public class Employee extends Person {
         super(name, email, dateOfBirth);
     }
 
-    /*public static Employee inputEmployee(Scanner scanner){
-        System.out.println("Name: ");
-        String name = scanner.nextLine();
-
-        System.out.println("Email: ");
-        String email = scanner.nextLine();
-
-        System.out.println("Unos datuma rođenja: ");
-        LocalDate dateOfBirth = inputLocalDate(scanner);
-
-        return new Employee(name, email, dateOfBirth);
-    }*/
 }

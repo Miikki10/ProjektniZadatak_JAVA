@@ -16,17 +16,4 @@ public class Client extends Person {
         return "Client";
     }
 
-    /*public static Client inputClient(Scanner scanner){
-        System.out.println("Ime: ");
-        String name = scanner.nextLine();
-
-        System.out.println("Email: ");
-        String email = scanner.nextLine();
-
-        System.out.println("Unos datuma rođenja: ");
-        LocalDate dateOfBirth = inputLocalDate(scanner);
-
-        return new Client(name, email, dateOfBirth);
-    }*/
-
 }

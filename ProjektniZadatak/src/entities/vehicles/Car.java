@@ -1,9 +1,8 @@
 package entities.vehicles;
 
 import java.math.BigDecimal;
-import java.util.Scanner;
 
-public final class Car implements Vehicles{
+public final class Car implements RegisteredVehicles {
     private static Integer nextId = 1;
 
     private final Integer id;
@@ -13,6 +12,9 @@ public final class Car implements Vehicles{
     private BigDecimal pricePerDay;
     private boolean available;
 
+    private String color = null;
+    private Integer passengerCapacity = null;
+
     private Car(Builder builder){
         this.id = builder.id;
         this.registration = builder.registration;
@@ -21,6 +23,9 @@ public final class Car implements Vehicles{
         this.year = builder.year;
         this.pricePerDay = builder.pricePerDay;
         this.available = builder.available;
+
+        this.color = builder.color;
+        this.passengerCapacity= builder.passengerCapacity;
     }
 
     public static class Builder{
@@ -29,7 +34,10 @@ public final class Car implements Vehicles{
         private String registration;
         private String brand, model;
         private BigDecimal pricePerDay;
-        private boolean available = true;//default vrijednost kada se instancira objekt
+        private boolean available = true;
+
+        private String color = null;
+        private Integer passengerCapacity = null;//default vrijednost kada se instancira objekt
 
         public Builder(){
             this.id = nextId;
@@ -57,6 +65,15 @@ public final class Car implements Vehicles{
         }
         public Builder setAvailable(boolean available) {
             this.available = available;
+            return this;
+        }
+        public Builder setColor(String color){
+            this.color = color;
+            return this;
+        }
+
+        public Builder setPassengerCapacity(Integer passengerCapacity) {
+            this.passengerCapacity = passengerCapacity;
             return this;
         }
 
@@ -104,8 +121,8 @@ public final class Car implements Vehicles{
         return registration;
     }
 
-    public BigDecimal getPricePerDayRaw() {
-        return pricePerDay;
+    @Override
+    public String getCarBrandModel(){
+        return brand+" "+ model;
     }
-
 }

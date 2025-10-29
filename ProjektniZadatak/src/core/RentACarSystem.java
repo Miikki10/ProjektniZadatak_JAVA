@@ -2,8 +2,8 @@ package core;
 
 import entities.people.Client;
 import entities.people.Employee;
-import entities.records.RecordStorage;
-import entities.vehicles.Booking;
+import entities.booking.RecordStorage;
+import entities.booking.Booking;
 import entities.vehicles.Car;
 import services.BookingSystem;
 import utilities.input.InputHandler;

@@ -2,15 +2,14 @@ package services;
 
 import entities.people.Client;
 import entities.people.Employee;
-import entities.records.RecordStorage;
-import entities.vehicles.Booking;
+import entities.booking.RecordStorage;
+import entities.booking.Booking;
 import entities.vehicles.Car;
 import utilities.input.BookingInputHandler;
 
-import java.time.LocalDate;
 import java.util.Scanner;
 
-public class BookingSystem {
+public class BookingSystem implements BookingSystemServices {
     private static final int MAX_CAPACITY = 100;
 
     private Client[] clients = new Client[MAX_CAPACITY];
@@ -32,6 +31,7 @@ public class BookingSystem {
         this.storage = storage;
     }
 
+    @Override
     public void makeBooking() {
         System.out.println("NAPRAVI REZERVACIJU PREMA POSTOJECIM PODATCIMA");
 

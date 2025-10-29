@@ -3,7 +3,7 @@ package utilities.input;
 import entities.people.Client;
 import entities.people.Employee;
 import entities.people.Person;
-import entities.vehicles.Booking;
+import entities.booking.Booking;
 import entities.vehicles.Car;
 
 import java.math.BigDecimal;

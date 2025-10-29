@@ -1,6 +1,4 @@
-package entities.records;
-
-import entities.vehicles.Booking;
+package entities.booking;
 
 import java.time.LocalDate;
 

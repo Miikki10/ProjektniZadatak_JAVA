@@ -51,6 +51,9 @@ public class InputHandler {
         System.out.println("Model: ");
         String model = scanner.nextLine();
 
+        System.out.println("Registracija: ");
+        String registration = scanner.nextLine();
+
         System.out.println("Godina: ");
         Integer godina = scanner.nextInt();
         scanner.nextLine();
@@ -66,6 +69,7 @@ public class InputHandler {
         return new Car.Builder()
                 .setBrand(brand)
                 .setModel(model)
+                .setRegistration(registration)
                 .setYear(godina)
                 .setPricePerDay(pricePerDay)
                 .setAvailable(available)
