@@ -14,7 +14,7 @@ import java.util.Scanner;
 import static entities.dates.DateUtils.inputLocalDate;
 
 public class BookingInputHandler {
-    public static Person inputPersonBooking(Scanner scanner, Person[] persons, String roleName) {
+    /*public static Person inputPersonBooking(Scanner scanner, Person[] persons, String roleName) {
         boolean personIsFound = false;
         Person foundPerson = null;
         do {
@@ -29,6 +29,29 @@ public class BookingInputHandler {
                 }
             }
             if (!personIsFound) System.out.println("Uneseni korisnik ne postoji!");
+        } while (true);
+    }*/
+    public static Person inputPersonBooking(Scanner scanner, Person[] persons, String roleName) {
+        Person foundPerson = null;
+        // Ponavljamo sve dok ne nađemo osobu
+        do {
+            System.out.println("Unesite IME i PREZIME " + roleName + ": ");
+            // Koristimo nextLine() jer ime može sadržavati razmake
+            String namePersonBooking = scanner.nextLine();
+
+            // Prolazimo kroz cijelo polje
+            // NOTE: Ovdje je riješena NullPointerException greška
+            for (Person person : persons) {
+                // 1. Provjera je li polje popunjeno (ako je null, preskačemo)
+                // 2. Provjera imena (zanemarujemo velika/mala slova)
+                if (person != null && namePersonBooking.equalsIgnoreCase(person.getName())) {
+                    return person; // Odmah vraćamo pronađenu osobu
+                }
+            }
+
+            // Ako petlja završi, a osoba nije pronađena
+            System.out.println("Osoba s tim imenom ne postoji u bazi podataka!");
+
         } while (true);
     }
 
