@@ -34,20 +34,20 @@ public class Main{
             try{
                 logger.info("Starting booking process...");
                 app.startBooking();
-                bookingSuccessful = true; // If everything went well, exit the loop
+                bookingSuccessful = true;
                 logger.info("Bookings created successfully!");
             } catch (InvalidBookingDateException e){
-                // Catching the specific exception for dates
+
                 logger.warn("Error during date entry: {}", e.getMessage());
                 logger.info("Please, try entering the booking information again.");
-                // The loop will continue, allowing for a new entry attempt
+
             }catch (IOException e){
                 logger.error("Critical I/O error: {}", e.getMessage(), e);
                 logger.error("The application will shut down due to an input error.");
-                break; // Break the loop and shut down the program
+                break;
             }catch (Exception e){
                 logger.error("An unexpected error occurred: {}", e.getMessage(), e);
-                break; // Break the loop and shut down the program
+                break;
             }
         }
 

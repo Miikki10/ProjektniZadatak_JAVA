@@ -19,6 +19,7 @@ import java.util.Scanner;
 
 /**
  * The type Rent a car system.
+ * Glavna klasa koja se pokreće u Mainu - predstavlja aplikaciju
  *
  * @author Bruno
  */
