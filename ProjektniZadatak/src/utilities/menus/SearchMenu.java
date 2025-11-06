@@ -9,6 +9,9 @@ import entities.vehicles.Car;
 import java.util.Scanner;
 
 
+/**
+ * The type Search menu.
+ */
 public class SearchMenu {
     /*private int selectedNumber;
     private Client[] clients;
@@ -54,6 +57,12 @@ public class SearchMenu {
         this.vars = vars;
     }*/
 
+    /**
+     * Start menu int.
+     *
+     * @param scanner the scanner
+     * @return the int
+     */
     public static int startMenu(Scanner scanner){
         System.out.println("Pretraživanje podataka prema zadanim kriterijima: ");
         System.out.println("Za pretraživanje  korisnika odaberite ----------------- 1: ");
@@ -66,6 +75,14 @@ public class SearchMenu {
         return selectedMenu;
     }
 
+    /**
+     * Select search menu.
+     *
+     * @param scanner   the scanner
+     * @param clients   the clients
+     * @param employees the employees
+     * @param cars      the cars
+     */
     public static void selectSearchMenu(Scanner scanner, Client[] clients, Employee[] employees, Car[] cars){
         boolean correctNumber = false;
         do{

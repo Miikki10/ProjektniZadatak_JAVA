@@ -1,11 +1,11 @@
 package entities.people;
 
 import java.time.LocalDate;
-import java.util.Scanner;
-
-import static entities.dates.DateUtils.inputLocalDate;
 
 
+/**
+ * The type Employee.
+ */
 public class Employee extends Person {
 
     @Override
@@ -13,6 +13,13 @@ public class Employee extends Person {
         return "Employee";
     }
 
+    /**
+     * Instantiates a new Employee.
+     *
+     * @param name        the name
+     * @param email       the email
+     * @param dateOfBirth the date of birth
+     */
     public Employee(String name, String email, LocalDate dateOfBirth) {
         super(name, email, dateOfBirth);
     }

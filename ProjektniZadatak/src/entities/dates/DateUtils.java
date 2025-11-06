@@ -5,7 +5,16 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
+/**
+ * The type Date utils.
+ */
 public class DateUtils {
+    /**
+     * Input local date local date.
+     *
+     * @param scanner the scanner
+     * @return the local date
+     */
     public static LocalDate inputLocalDate(Scanner scanner){
         LocalDate date = null;
 

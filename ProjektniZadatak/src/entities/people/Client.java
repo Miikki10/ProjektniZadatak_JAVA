@@ -1,12 +1,19 @@
 package entities.people;
 
 import java.time.LocalDate;
-import java.util.Scanner;
-
-import static entities.dates.DateUtils.inputLocalDate;
 
 
+/**
+ * The type Client.
+ */
 public class Client extends Person {
+    /**
+     * Instantiates a new Client.
+     *
+     * @param name        the name
+     * @param email       the email
+     * @param dateOfBirth the date of birth
+     */
     public Client(String name, String email, LocalDate dateOfBirth) {
         super(name, email, dateOfBirth);
     }

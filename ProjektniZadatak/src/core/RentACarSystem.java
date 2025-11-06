@@ -1,5 +1,6 @@
 package core;
 
+import entities.exceptions.InvalidBookingDateException;
 import entities.people.Client;
 import entities.people.Employee;
 import entities.booking.RecordStorage;
@@ -9,8 +10,18 @@ import services.BookingSystem;
 import utilities.input.InputHandler;
 import utilities.menus.SearchMenu;
 
+import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ *
+ */
+
+/**
+ * The type Rent a car system.
+ *
+ * @author Bruno
+ */
 public class RentACarSystem {
     private static final int MAX_CAPACITY = 100;
 
@@ -21,6 +32,11 @@ public class RentACarSystem {
     private RecordStorage recordStorage;
     private Scanner unos = new Scanner(System.in);
 
+    /**
+     * Instantiates a new Rent a car system.
+     *
+     * @param capacity the capacity
+     */
     public RentACarSystem(int capacity){
         this.clients = new Client[capacity];
         this.employees = new Employee[capacity];
@@ -29,6 +45,11 @@ public class RentACarSystem {
         this.recordStorage = new RecordStorage();
     }
 
+    /**
+     * Initialize data.
+     *
+     * @param count the count
+     */
     public void initializeData(int count){
         System.out.println("--------------Unos podataka------------");
         for(int i = 0; i<count; i++){
@@ -40,9 +61,18 @@ public class RentACarSystem {
         }
     }
 
+    /**
+     * The Number of bookings.
+     */
     int numberOfBookings = 5;
 
-    public void startBooking(){
+    /**
+     * Start booking.
+     *
+     * @throws InvalidBookingDateException the invalid booking date exception
+     * @throws IOException                 the io exception
+     */
+    public void startBooking() throws InvalidBookingDateException, IOException {
         BookingSystem userBooking = new BookingSystem(
                 unos,
                 numberOfBookings,
@@ -56,6 +86,9 @@ public class RentACarSystem {
         userBooking.makeBooking();
     }
 
+    /**
+     * Start search menu.
+     */
     public void startSearchMenu(){
         SearchMenu.selectSearchMenu(unos, clients, employees, cars);
     }

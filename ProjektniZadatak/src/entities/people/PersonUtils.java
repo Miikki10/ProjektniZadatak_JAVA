@@ -1,12 +1,17 @@
 package entities.people;
 
-import java.time.DateTimeException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Scanner;
 
+/**
+ * The type Person utils.
+ */
 public class PersonUtils {
+    /**
+     * Youngest person person.
+     *
+     * @param people the people
+     * @return the person
+     */
     public static Person youngestPerson(Person[] people){
         if (people == null || people.length == 0) {
             return null;
@@ -16,6 +21,12 @@ public class PersonUtils {
         return people[people.length-1];//najveći datum - najmlađa osoba
     }
 
+    /**
+     * Oldest person person.
+     *
+     * @param people the people
+     * @return the person
+     */
     public static Person oldestPerson(Person[] people){
         if (people == null || people.length == 0) {
             return null;

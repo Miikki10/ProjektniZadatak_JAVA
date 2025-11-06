@@ -3,12 +3,17 @@ package services;
 import entities.people.Client;
 import entities.people.Employee;
 import entities.booking.RecordStorage;
+import entities.exceptions.InvalidBookingDateException;
+import java.io.IOException;
 import entities.booking.Booking;
 import entities.vehicles.Car;
 import utilities.input.BookingInputHandler;
 
 import java.util.Scanner;
 
+/**
+ * The type Booking system.
+ */
 public class BookingSystem implements BookingSystemServices {
     private static final int MAX_CAPACITY = 100;
 
@@ -21,6 +26,17 @@ public class BookingSystem implements BookingSystemServices {
     private int numberOfBookings;
     private Scanner unos = new Scanner(System.in);
 
+    /**
+     * Instantiates a new Booking system.
+     *
+     * @param scanner          the scanner
+     * @param numberOfBookings the number of bookings
+     * @param clients          the clients
+     * @param employees        the employees
+     * @param cars             the cars
+     * @param bookings         the bookings
+     * @param storage          the storage
+     */
     public BookingSystem(Scanner scanner, int numberOfBookings, Client[] clients, Employee[] employees, Car[] cars, Booking[] bookings, RecordStorage storage) {
         this.unos = scanner;
         this.numberOfBookings = numberOfBookings;
@@ -32,7 +48,7 @@ public class BookingSystem implements BookingSystemServices {
     }
 
     @Override
-    public void makeBooking() {
+    public void makeBooking() throws InvalidBookingDateException, IOException {
         System.out.println("NAPRAVI REZERVACIJU PREMA POSTOJECIM PODATCIMA");
 
         for(int i = 0; i < this.numberOfBookings; i++){

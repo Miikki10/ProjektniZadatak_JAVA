@@ -1,19 +1,23 @@
 package entities.vehicles;
 
 import java.math.BigDecimal;
+import entities.exceptions.InvalidVehicleDataException;
 
+/**
+ * The type Car.
+ */
 public final class Car implements RegisteredVehicles {
     private static Integer nextId = 1;
 
     private final Integer id;
-    private Integer year;
-    private String registration;
-    private String brand, model;
-    private BigDecimal pricePerDay;
+    private final Integer year;
+    private final String registration;
+    private final String brand, model;
+    private final BigDecimal pricePerDay;
     private boolean available;
 
-    private String color = null;
-    private Integer passengerCapacity = null;
+    private final String color;
+    private final Integer passengerCapacity;
 
     private Car(Builder builder){
         this.id = builder.id;
@@ -28,6 +32,9 @@ public final class Car implements RegisteredVehicles {
         this.passengerCapacity= builder.passengerCapacity;
     }
 
+    /**
+     * The type Builder.
+     */
     public static class Builder{
         private final Integer id;
         private Integer year;
@@ -39,79 +46,183 @@ public final class Car implements RegisteredVehicles {
         private String color = null;
         private Integer passengerCapacity = null;//default vrijednost kada se instancira objekt
 
+        /**
+         * Instantiates a new Builder.
+         */
         public Builder(){
             this.id = nextId;
             nextId++;
         }
+
+        /**
+         * Sets registration.
+         *
+         * @param registration the registration
+         * @return the registration
+         */
         public Builder setRegistration(String registration) {
             this.registration = registration;
             return this;
         }
+
+        /**
+         * Sets year.
+         *
+         * @param year the year
+         * @return the year
+         */
         public Builder setYear(Integer year) {
             this.year = year;
             return this;
         }
+
+        /**
+         * Sets brand.
+         *
+         * @param brand the brand
+         * @return the brand
+         */
         public Builder setBrand(String brand) {
             this.brand = brand;
             return this;
         }
+
+        /**
+         * Sets model.
+         *
+         * @param model the model
+         * @return the model
+         */
         public Builder setModel(String model) {
             this.model = model;
             return this;
         }
+
+        /**
+         * Sets price per day.
+         *
+         * @param pricePerDay the price per day
+         * @return the price per day
+         */
         public Builder setPricePerDay(BigDecimal pricePerDay) {
             this.pricePerDay = pricePerDay;
             return this;
         }
+
+        /**
+         * Sets available.
+         *
+         * @param available the available
+         * @return the available
+         */
         public Builder setAvailable(boolean available) {
             this.available = available;
             return this;
         }
+
+        /**
+         * Set color builder.
+         *
+         * @param color the color
+         * @return the builder
+         */
         public Builder setColor(String color){
             this.color = color;
             return this;
         }
 
+        /**
+         * Sets passenger capacity.
+         *
+         * @param passengerCapacity the passenger capacity
+         * @return the passenger capacity
+         */
         public Builder setPassengerCapacity(Integer passengerCapacity) {
             this.passengerCapacity = passengerCapacity;
             return this;
         }
 
+        /**
+         * Build car.
+         *
+         * @return the car
+         */
         public Car build(){
+            if(brand == null || brand.isBlank()){
+                throw new InvalidVehicleDataException("Marka automobila ne može biti prazna.");
+            }
+            if(model == null || model.isBlank()){
+                throw new InvalidVehicleDataException("Model automobila ne može biti prazan.");
+            }
+            if(pricePerDay == null || pricePerDay.compareTo(BigDecimal.ZERO) < 0){
+                throw new InvalidVehicleDataException("Cijena po danu ne može biti negativna.");
+            }
+            if(year == null || year < 1886 || year > java.time.Year.now().getValue() + 1){
+                throw new InvalidVehicleDataException("Neispravna godina proizvodnje: " + year);
+            }
             return new Car(this);
         }
     }
 
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     public Integer getId() {
         return id;
     }
+
+    /**
+     * Gets year.
+     *
+     * @return the year
+     */
     public Integer getYear() {
         return year;
     }
-    public void setYear(Integer year) {
-        this.year = year;
-    }
+
+    /**
+     * Gets brand.
+     *
+     * @return the brand
+     */
     public String getBrand() {
         return brand;
     }
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
+
+    /**
+     * Gets model.
+     *
+     * @return the model
+     */
     public String getModel() {
         return model;
     }
-    public void setModel(String model) {
-        this.model = model;
-    }
+
+    /**
+     * Gets price per day.
+     *
+     * @return the price per day
+     */
     public BigDecimal getPricePerDay() {
         return pricePerDay;
     }
-    public void setPricePerDay(BigDecimal pricePerDay) {
-        this.pricePerDay = pricePerDay;
-    }
+
+    /**
+     * Is available boolean.
+     *
+     * @return the boolean
+     */
     public boolean isAvailable() {
         return available;
     }
+
+    /**
+     * Sets available.
+     *
+     * @param available the available
+     */
     public void setAvailable(boolean available) {
         this.available = available;
     }
