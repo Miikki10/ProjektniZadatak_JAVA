@@ -1,6 +1,8 @@
 package entities.vehicles;
 
 import java.math.BigDecimal;
+import java.util.Objects;
+
 import entities.exceptions.InvalidVehicleDataException;
 
 /**
@@ -228,6 +230,18 @@ public final class Car implements RegisteredVehicles {
     }
 
     @Override
+    public boolean equals(Object o){
+        if(this == o) return true;
+        if(!(o instanceof Car car)) return false;
+        return Objects.equals(registration, car.registration);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(registration);
+    }
+
+    @Override
     public String getRegistration() {
         return registration;
     }
@@ -235,5 +249,13 @@ public final class Car implements RegisteredVehicles {
     @Override
     public String getCarBrandModel(){
         return brand+" "+ model;
+    }
+
+    @Override
+    public String getFullDescription(){
+        return String.format(
+                "ID: %d | Reg: %s | Marka/Model: %s | Godina: %d | Cijena/dan: %.2f HRK | Dostupan: %s",
+                id, registration, getCarBrandModel(), year, pricePerDay, available ? "DA" : "NE"
+        );
     }
 }

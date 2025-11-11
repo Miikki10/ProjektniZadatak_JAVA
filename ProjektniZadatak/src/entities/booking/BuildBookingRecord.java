@@ -6,7 +6,7 @@ import java.time.LocalDate;
 /**
  * The type Record storage.
  */
-public class RecordStorage {
+public class BuildBookingRecord {
     private static final int MAX_CAPACITY = 100;
     private static Integer nextId = 1;//static da pripada klasi a ne smao 1 instanci objekta
 

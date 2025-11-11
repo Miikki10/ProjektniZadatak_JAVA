@@ -21,6 +21,8 @@ public class Booking {
     private LocalDate endDate;
     private BigDecimal totalPrice;
 
+    private BookingStatusEnum.BookingStatus bookingStatus;
+
     /**
      * Instantiates a new Booking.
      *
@@ -31,6 +33,8 @@ public class Booking {
      * @param endDate    the end date
      * @param totalPrice the total price
      */
+
+
     public Booking(Client client, Employee employee, Car car, LocalDate startDate, LocalDate endDate, BigDecimal totalPrice) {
         this.id = nextId;
         nextId++;
@@ -40,6 +44,8 @@ public class Booking {
         this.startDate = startDate;
         this.endDate = endDate;
         this.totalPrice = totalPrice;
+
+        this.bookingStatus = BookingStatusEnum.BookingStatus.PENDING;
     }
 
     /**

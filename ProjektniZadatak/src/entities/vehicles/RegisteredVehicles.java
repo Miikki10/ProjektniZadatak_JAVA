@@ -17,13 +17,13 @@ public sealed interface RegisteredVehicles permits Car {
      * @return the car brand model
      */
     String getCarBrandModel();
-
+    String getFullDescription();
     /**
      * Get full description string.
      *
      * @return the string
      */
-    default String getFullDescription(){
+    default String getSemiDescription(){
         return getCarBrandModel() + " - " + getRegistration();
     }
 }

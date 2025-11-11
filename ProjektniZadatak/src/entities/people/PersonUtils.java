@@ -1,6 +1,9 @@
 package entities.people;
 
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * The type Person utils.
@@ -12,13 +15,18 @@ public class PersonUtils {
      * @param people the people
      * @return the person
      */
-    public static Person youngestPerson(Person[] people){
-        if (people == null || people.length == 0) {
+    public static <T extends Person>T youngestPerson(Map<Integer, T> people){
+        if (people == null || people.isEmpty()) {
             return null;
         }
 
-        Arrays.sort(people, (p1, p2) -> p1.getDateOfBirth().compareTo(p2.getDateOfBirth()));
-        return people[people.length-1];//najveći datum - najmlađa osoba
+        Optional<T> youngestPerson= people.values()
+                .stream()
+                .max(Comparator.comparing(Person::getDateOfBirth));
+
+        return youngestPerson.orElse(null);
+        /*Arrays.sort(people, (p1, p2) -> p1.getDateOfBirth().compareTo(p2.getDateOfBirth()));
+        return people[people.length-1];//najveći datum - najmlađa osoba*/
     }
 
     /**
@@ -27,33 +35,18 @@ public class PersonUtils {
      * @param people the people
      * @return the person
      */
-    public static Person oldestPerson(Person[] people){
-        if (people == null || people.length == 0) {
+    public static <T extends Person>T oldestPerson(Map<Integer, T> people){
+        if (people == null || people.isEmpty()) {
             return null;
         }
 
-        Arrays.sort(people, (p1, p2) -> p1.getDateOfBirth().compareTo(p2.getDateOfBirth()));
-        return people[0];//najmanji datum - najstarija osoba
+        Optional<T> oldestPerson = people.values()
+                .stream()
+                .min(Comparator.comparing(Person::getDateOfBirth));
+
+        return oldestPerson.orElse(null);
+        /*Arrays.sort(people, (p1, p2) -> p1.getDateOfBirth().compareTo(p2.getDateOfBirth()));
+        return people[0];//najmanji datum - najstarija osoba*/
     }
-
-    /*public static LocalDate inputLocalDate(Scanner scanner){
-        LocalDate date = null;
-
-        final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-
-        do{
-            System.out.println("Unesite datum formata (DD.MM.YYYY): ");
-            String dateString = scanner.nextLine();
-
-            try{
-                date = LocalDate.parse(dateString, DATE_FORMATTER);
-            }
-            catch (DateTimeException e){
-                System.out.println("Unijeli ste neispravan format datuma!");
-            }
-        }while(date==null);
-
-        return date;
-    }*/
 
 }

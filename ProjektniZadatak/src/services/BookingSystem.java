@@ -2,27 +2,28 @@ package services;
 
 import entities.people.Client;
 import entities.people.Employee;
-import entities.booking.RecordStorage;
+import entities.booking.BuildBookingRecord;
 import entities.exceptions.InvalidBookingDateException;
+
+import java.awt.print.Book;
 import java.io.IOException;
 import entities.booking.Booking;
 import entities.vehicles.Car;
 import utilities.input.BookingInputHandler;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
  * The type Booking system.
  */
 public class BookingSystem implements BookingSystemServices {
-    private static final int MAX_CAPACITY = 100;
-
-    private Client[] clients = new Client[MAX_CAPACITY];
-    private Employee[]employees = new Employee[MAX_CAPACITY];
-    private Car[] cars = new Car[MAX_CAPACITY];
-    private Booking[] bookings = new Booking[MAX_CAPACITY];
-    //private RecordStorage[] records = new RecordStorage[MAX_CAPACITY];
-    private final RecordStorage storage;
+    private Map<Integer, Client> clients;
+    private Map<Integer, Employee> employees;
+    private Map<Integer, Car> cars;
+    private Map<Integer, Booking> bookings;
+    private BuildBookingRecord storage;
     private int numberOfBookings;
     private Scanner unos = new Scanner(System.in);
 
@@ -37,7 +38,12 @@ public class BookingSystem implements BookingSystemServices {
      * @param bookings         the bookings
      * @param storage          the storage
      */
-    public BookingSystem(Scanner scanner, int numberOfBookings, Client[] clients, Employee[] employees, Car[] cars, Booking[] bookings, RecordStorage storage) {
+    public BookingSystem(Scanner scanner,
+                         int numberOfBookings,
+                         Map<Integer, Client> clients,
+                         Map<Integer, Employee> employees,
+                         Map<Integer, Car> cars, Map<Integer, Booking> bookings,
+                         BuildBookingRecord storage) {
         this.unos = scanner;
         this.numberOfBookings = numberOfBookings;
         this.clients = clients;
@@ -55,19 +61,20 @@ public class BookingSystem implements BookingSystemServices {
             System.out.println("--- Unos za rezervaciju " + (i + 1) + " ---");
 
             System.out.println("Unos klijenta");
-            Client bookingClient = (Client) BookingInputHandler.inputPersonBooking(this.unos, this.clients, "klijenta");
+            Client bookingClient = BookingInputHandler.inputPersonBooking(this.unos, this.clients, "klijenta");
 
             System.out.println("Unos zaposlenika");
-            Employee bookingEmployee = (Employee) BookingInputHandler.inputPersonBooking(this.unos, this.employees, "zaposlenika");
+            Employee bookingEmployee = BookingInputHandler.inputPersonBooking(this.unos, this.employees, "zaposlenika");
 
             System.out.println("Unos automobila");
             Car bookingCar = BookingInputHandler.inputCarBooking(this.unos, this.cars);
 
             System.out.println("Unos podataka za rezervaciju");
-            this.bookings[i] = BookingInputHandler.inputBooking(this.unos, bookingClient, bookingEmployee, bookingCar);
+            Booking makeNewBooking = BookingInputHandler.inputBooking(this.unos, bookingClient, bookingEmployee, bookingCar);
+            Integer bookingId = makeNewBooking.getId();
+            this.bookings.put(bookingId, makeNewBooking);
 
-            //this.records[i] = new RecordStorage(this.bookings[i], LocalDate.now());
-            this.storage.addPermanentRecord(this.bookings[i]);
+            this.storage.addPermanentRecord(makeNewBooking);
         }
     }
 }

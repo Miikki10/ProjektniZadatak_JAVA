@@ -1,16 +1,19 @@
 package core;
 
+import entities.booking.BuildBookingRecord;
 import entities.exceptions.InvalidBookingDateException;
 import entities.people.Client;
 import entities.people.Employee;
-import entities.booking.RecordStorage;
 import entities.booking.Booking;
 import entities.vehicles.Car;
+import entities.vehicles.CarFleetRepository;
 import services.BookingSystem;
 import utilities.input.InputHandler;
 import utilities.menus.SearchMenu;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -24,14 +27,14 @@ import java.util.Scanner;
  * @author Bruno
  */
 public class RentACarSystem {
-    private static final int MAX_CAPACITY = 100;
-
-    private Client[] clients = new Client[MAX_CAPACITY];
-    private Employee[]employees = new Employee[MAX_CAPACITY];
-    private Car[] cars = new Car[MAX_CAPACITY];
-    private Booking[] bookings = new Booking[MAX_CAPACITY];
-    private RecordStorage recordStorage;
+    private Map<Integer, Client> clients;
+    private Map<Integer, Employee> employees;
+    private Map<Integer, Car> cars;
+    private Map<Integer, Booking> bookings;
+    private BuildBookingRecord buildBookingRecord;
+    private CarFleetRepository fleetRepository;
     private Scanner unos = new Scanner(System.in);
+
 
     /**
      * Instantiates a new Rent a car system.
@@ -39,11 +42,12 @@ public class RentACarSystem {
      * @param capacity the capacity
      */
     public RentACarSystem(int capacity){
-        this.clients = new Client[capacity];
-        this.employees = new Employee[capacity];
-        this.cars = new Car[capacity];
-        this.bookings = new Booking[capacity];
-        this.recordStorage = new RecordStorage();
+        this.clients = new HashMap<>();
+        this.employees = new HashMap<>();
+        this.cars = new HashMap<>();
+        this.bookings = new HashMap<>();
+        this.buildBookingRecord = new BuildBookingRecord();
+        this.fleetRepository = new CarFleetRepository();
     }
 
     /**
@@ -54,18 +58,57 @@ public class RentACarSystem {
     public void initializeData(int count){
         System.out.println("--------------Unos podataka------------");
         for(int i = 0; i<count; i++){
-            clients[i] = InputHandler.inputClient(unos);
+            //clients[i] = InputHandler.inputClient(unos);
+            Client tmpClient = InputHandler.inputClient(unos);
+            Integer clientId = tmpClient.getId();
 
-            employees[i] = InputHandler.inputEmployee(unos);
+            /**
+             * Provjerava postoji li klijetn s tim objektom
+             * Ako postoji ne dodajemo novi
+             * !!!!!!!!!DODATI LOGBACK ovjde kad ćeš imat vremena
+             */
+            if (clients.containsKey(clientId)) {
+                System.out.println("Greška: Klijent s ID-em " + clientId + " već postoji.");
+                return;
+            }
 
-            cars[i] = InputHandler.inputCar(unos);
+            clients.put(clientId, tmpClient);
+
+            //employees[i] = InputHandler.inputEmployee(unos);
+            /**
+             * Provjerava postoji li zaposlenik s tim objektom
+             * Ako postoji ne dodajemo novi
+             * !!!!!!!!!DODATI LOGBACK ovjde kad ćeš imat vremena
+             */
+            Employee tmpEmployee = InputHandler.inputEmployee(unos);
+            Integer employeeId = tmpEmployee.getId();
+            if(employees.containsKey(employeeId)){
+                System.out.println("Greška: Klijent s ID-em " + clientId + " već postoji.");
+                return;
+            }
+            employees.put(employeeId, tmpEmployee);
+
+
+            //cars[i] = InputHandler.inputCar(unos);
+            /**
+             * Provjerava postoji li automobil s tim objektom
+             * Ako postoji ne dodajemo novi
+             * !!!!!!!!!DODATI LOGBACK ovjde kad ćeš imat vremena
+             */
+            Car tmpCar = InputHandler.inputCar(unos, fleetRepository);
+            Integer carId = tmpCar.getId();
+            if(cars.containsKey(carId)){
+                System.out.println("Greška: Klijent s ID-em " + carId + " već postoji.");
+                return;
+            }
+            cars.put(carId, tmpCar);
         }
     }
 
     /**
      * The Number of bookings.
      */
-    int numberOfBookings = 5;
+    //int numberOfBookings = 5;
 
     /**
      * Start booking.
@@ -74,6 +117,10 @@ public class RentACarSystem {
      * @throws IOException                 the io exception
      */
     public void startBooking() throws InvalidBookingDateException, IOException {
+        System.out.println("Unesite koliko rezervacija želite napraviti: ");
+        int numberOfBookings = unos.nextInt();
+        unos.nextLine();
+
         BookingSystem userBooking = new BookingSystem(
                 unos,
                 numberOfBookings,
@@ -81,7 +128,7 @@ public class RentACarSystem {
                 employees,
                 cars,
                 bookings,
-                recordStorage
+                buildBookingRecord
         );
 
         userBooking.makeBooking();
@@ -91,6 +138,6 @@ public class RentACarSystem {
      * Start search menu.
      */
     public void startSearchMenu(){
-        SearchMenu.selectSearchMenu(unos, clients, employees, cars);
+        SearchMenu.selectSearchMenu(unos, clients, employees, cars, fleetRepository);
     }
 }

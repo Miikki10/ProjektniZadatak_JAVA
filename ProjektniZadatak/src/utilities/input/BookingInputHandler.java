@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.io.IOException;
 import java.time.temporal.ChronoUnit;
+import java.util.Map;
 import java.util.Scanner;
 
 import static entities.dates.DateUtils.inputLocalDate;
@@ -27,26 +28,39 @@ public class BookingInputHandler {
      * @param roleName the role name
      * @return the person
      */
-    public static Person inputPersonBooking(Scanner scanner, Person[] persons, String roleName) {
-        Person foundPerson = null;
-        // Ponavljamo sve dok ne nađemo osobu
+    public static <T extends Person>T inputPersonBooking(Scanner scanner, Map<Integer, T> persons, String roleName) {
+        /**
+         * Ispis svih postojećih klijenata i njihovih ID
+         * Korisnik upisuje SAMO ID!!!!!!!!!
+         */
         do {
-            System.out.println("Unesite IME i PREZIME " + roleName + ": ");
-            // Koristimo nextLine() jer ime može sadržavati razmake
-            String namePersonBooking = scanner.nextLine();
+            System.out.println("-----------ISPIS SVIH KLIJENATA----------------");
+            for (Map.Entry<Integer, T> entry: persons.entrySet()){
+                Integer id = entry.getKey();
+                Person person = entry.getValue();
 
-            // Prolazimo kroz cijelo polje
-            // NOTE: Ovdje je riješena NullPointerException greška
-            for (Person person : persons) {
-                // 1. Provjera je li polje popunjeno (ako je null, preskačemo)
-                // 2. Provjera imena (zanemarujemo velika/mala slova)
-                if (person != null && namePersonBooking.equalsIgnoreCase(person.getName())) {
-                    return person; // Odmah vraćamo pronađenu osobu
-                }
+                System.out.println("ID: "+id+" - " + person.getName());
             }
 
-            // Ako petlja završi, a osoba nije pronađena
-            System.out.println("Osoba s tim imenom ne postoji u bazi podataka!");
+            System.out.println("Unesite ID željenog klijenta: ");
+
+            if(!scanner.hasNextInt()){
+                System.out.println("Neispravan unos. Molimo unesite cijeli broj (ID).");
+                scanner.next();
+                continue;
+            }
+
+            int selectedId = scanner.nextInt();
+
+            Person bookingPerson;
+            bookingPerson = persons.get(selectedId);
+
+            if (bookingPerson == null) {
+                System.out.println("Klijent s tim ID-em ne postoji. Pokušajte ponovo.");
+                continue;
+            }
+
+            System.out.println("Odabran klijent sa ID: " + bookingPerson.getId() + " - " + bookingPerson.getName());
 
         } while (true);
     }
@@ -58,22 +72,42 @@ public class BookingInputHandler {
      * @param cars    the cars
      * @return the car
      */
-    public static Car inputCarBooking(Scanner scanner, Car[] cars){
-        boolean carIsFound = false;
-        Car foundCar = null;
+    public static Car inputCarBooking(Scanner scanner, Map<Integer, Car> cars){
 
+        /**
+         * Ispis svih postojećih automobila i njihovih ID
+         * Korisnik upisuje SAMO ID!!!!!!!!!
+         */
         do{
-            System.out.println("Unesite ID automobila: ");
-            Integer idCarBooking = scanner.nextInt();
-            scanner.nextLine(); // Čišćenje /n iz buffera
-            for(int j=0;j<5;j++){
-                if (idCarBooking.equals(cars[j].getId())) {
-                    //carIsFound = true;
-                    foundCar = cars[j];
-                    return foundCar;
-                }
+
+            System.out.println("----------ISPIS SVIH AUTOMOBILA---------------");
+            for(Map.Entry<Integer, Car> entry : cars.entrySet()){
+                Integer carId = entry.getKey();
+                Car car = entry.getValue();
+
+                System.out.println("ID: " + carId + " - " + car.getCarBrandModel());
             }
-            if (!carIsFound) System.out.println("Uneseni automobil ne postoji!");
+
+            System.out.println("Unesite ID željenog automobila: ");
+
+            if(!scanner.hasNextInt()){
+                System.out.println("Neispravan unos. Molimo unesite cijeli broj (ID).");
+                scanner.next();
+                continue;
+            }
+
+            int selectedId = scanner.nextInt();
+
+            Car bookingCar;
+            bookingCar = cars.get(selectedId);
+
+            if(bookingCar == null){
+                System.out.println("Klijent s tim ID-em ne postoji. Pokušajte ponovo.");
+                continue;
+            }
+
+            System.out.println("Odabrani automobil je ID: " + bookingCar.getId() + " - " + bookingCar.getCarBrandModel());
+
         }while(true);
     }
 

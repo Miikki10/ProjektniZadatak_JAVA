@@ -5,7 +5,11 @@ import entities.people.Employee;
 import entities.people.Person;
 import entities.people.PersonUtils;
 import entities.vehicles.Car;
+import entities.vehicles.CarFleetRepository;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 
@@ -83,7 +87,11 @@ public class SearchMenu {
      * @param employees the employees
      * @param cars      the cars
      */
-    public static void selectSearchMenu(Scanner scanner, Client[] clients, Employee[] employees, Car[] cars){
+    public static void selectSearchMenu(Scanner scanner,
+                                        Map<Integer, Client> clients,
+                                        Map<Integer, Employee> employees,
+                                        Map<Integer, Car> cars,
+                                        CarFleetRepository fleetRepository){
         boolean correctNumber = false;
         do{
             int selectedMenu = startMenu(scanner);
@@ -127,22 +135,24 @@ public class SearchMenu {
                     }
                 }
                 case 3 -> {
-                    correctNumber = true;
-                    boolean carBrandIsFound = false;
+                    List<Car> foundCars = new ArrayList<>();
                     do{
-                        System.out.println("Odaberite željenu marku automobila");
-                        String carBrandName = scanner.nextLine();
+                        System.out.println("Odaberite željenu marku automobila:");
+                        String carBrandModelName = scanner.nextLine();
+                        fleetRepository.printAllBrandsModels();
 
-                        for(int i = 0; i<5; i++){
-                            if(carBrandName.equals(cars[i].getBrand())){
-                                carBrandIsFound = true;
-                                System.out.println(cars[i].getBrand() + " - " + cars[i].getModel() + " " + cars[i].getYear());
+                        foundCars = (fleetRepository.findByBrandModel(carBrandModelName));
+
+                        if(foundCars.isEmpty()){
+                            System.out.println("Na lageru nemamo to vozilo!");
+                        }else{
+                            System.out.println("Pronađeni automobili za upit: "+ carBrandModelName);
+                            for (Car car : foundCars){
+                                car.getFullDescription();
                             }
                         }
-                        if(!carBrandIsFound){
-                            System.out.println("Na lageru nemamo taj brand");
-                        }
-                    }while (!carBrandIsFound);
+
+                    }while(foundCars.isEmpty());
                 }
                 default -> {
                     System.out.println("Uneseni broj je neispravan");
