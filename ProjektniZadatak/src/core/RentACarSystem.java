@@ -9,6 +9,7 @@ import entities.vehicles.Car;
 import entities.vehicles.CarFleetRepository;
 import services.BookingSystem;
 import utilities.input.InputHandler;
+import utilities.menus.CarMenu;
 import utilities.menus.SearchMenu;
 
 import java.io.IOException;
@@ -139,5 +140,20 @@ public class RentACarSystem {
      */
     public void startSearchMenu(){
         SearchMenu.selectSearchMenu(unos, clients, employees, cars, fleetRepository);
+    }
+    public void startAvailableCarsMenu(){
+        CarMenu.printAvailableCarsMenu(fleetRepository);
+    }
+
+    public void startCarBrandMenu(){
+        CarMenu.startCarBrandMenu(fleetRepository);
+    }
+
+    public void startInspectionPairs(){
+        CarMenu.printPairsForInspection(fleetRepository);
+    }
+
+    public void firstLastAddedCar(){
+        CarMenu.printInputFleetFirstLast(fleetRepository);
     }
 }

@@ -53,6 +53,15 @@ public class Main{
 
         logger.info("Starting search menu...");
         app.startSearchMenu();
+        logger.info("Exiting default search menu");
+        logger.info("Starting print of all available cars");
+        app.startAvailableCarsMenu();
+        logger.info("Starting print of all cars by brand");
+        app.startCarBrandMenu();
+        logger.info("Starting print of pairs of cars for inspection");
+        app.startInspectionPairs();
+        logger.info("Starting print of first and last added car");
+        app.firstLastAddedCar();
         logger.trace("Exiting main method.");
     }
 }
