@@ -1,4 +1,4 @@
-package entities.vehicles;
+package core.vehicles;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -11,15 +11,14 @@ import java.util.stream.Stream;
  * koristi se set jer ne mogu postojati dvije iste instance klase Car
  * (zbog registracijske oznake)
  */
-
-
 public class CarFleetRepository {
     private final Set<Car> fleet = new HashSet<>();
 
     /**
-     * @param car
-     * @return
-     * ako je uspio dodati true, inače vraća false
+     * Add car to fleet boolean.
+     *
+     * @param car the car
+     * @return ako je uspio dodati true, inače vraća false
      */
     public boolean addCarToFleet(Car car){
         boolean isAdded = fleet.add(car);
@@ -29,6 +28,12 @@ public class CarFleetRepository {
         return isAdded;
     }
 
+    /**
+     * Find by registration car.
+     *
+     * @param registration the registration
+     * @return the car
+     */
     public Car findByRegistration(String registration){
         for (Car car:fleet){
             if(car.getRegistration().equals(registration)){
@@ -38,6 +43,12 @@ public class CarFleetRepository {
         return null;
     }
 
+    /**
+     * Find by brand model list.
+     *
+     * @param name the name
+     * @return the list
+     */
     public List<Car> findByBrandModel(String name){
         List<Car> matchingCars = new ArrayList<>();
         for(Car car: fleet){
@@ -48,6 +59,9 @@ public class CarFleetRepository {
         return matchingCars;
     }
 
+    /**
+     * Print all brands models.
+     */
     public void printAllBrandsModels(){
         System.out.println("--- Trenutna Flota (" + fleet.size() + " brandova i modela) ---");
         // Pretvaranje Set-a u Listu radi sortiranja
@@ -60,6 +74,9 @@ public class CarFleetRepository {
         System.out.println("----------------------------------------");
     }
 
+    /**
+     * Print all cars.
+     */
     public void printAllCars(){
         System.out.println("--- Trenutna Flota (" + fleet.size() + " automobila) ---");
         // Pretvaranje Set-a u Listu radi sortiranja
@@ -72,15 +89,28 @@ public class CarFleetRepository {
         System.out.println("----------------------------------------");
     }
 
+    /**
+     * Partition by availability map.
+     *
+     * @return the map
+     */
     public Map<Boolean, List<Car>> partitionByAvailability(){
         return fleet.stream()
                 .collect(Collectors.partitioningBy(Car::isAvailable));
     }
 
+    /**
+     * Get available cars list.
+     *
+     * @return the list
+     */
     public List<Car> getAvailableCars(){
         return partitionByAvailability().get(true);
     }
 
+    /**
+     * Print available cars.
+     */
     public void printAvailableCars() {
         System.out.println("--- Dostupni automobili za najam (" + getAvailableCars().size() + ") ---");
 
@@ -92,11 +122,19 @@ public class CarFleetRepository {
         System.out.println("----------------------------------------");
     }
 
+    /**
+     * Group cars by brand model map .
+     *
+     * @return the map
+     */
     public Map <String, List<Car>> groupCarsByBrandModel () {
             return fleet.stream()
                     .collect(Collectors.groupingBy(Car::getCarBrandModel));
     }
 
+    /**
+     * Print cars by brand model.
+     */
     public void printCarsByBrandModel(){
         System.out.println("--- Broj automobila po markama/modelima ---");
         Map<String, List<Car>> grouped = groupCarsByBrandModel();
@@ -109,6 +147,9 @@ public class CarFleetRepository {
         System.out.println("----------------------------------------");
     }
 
+    /**
+     * Print first and last added car.
+     */
     public void printFirstAndLastAddedCar() {
         List<Car> orderedFleet = new ArrayList<>(fleet);
 
@@ -137,6 +178,9 @@ public class CarFleetRepository {
                 .gather(Gatherers.windowFixed(2));
     }
 
+    /**
+     * Print car pairs.
+     */
     public void printCarPairs() {
         System.out.println("----------------------------------------");
         pairCarsForInspection().forEach(pair -> {

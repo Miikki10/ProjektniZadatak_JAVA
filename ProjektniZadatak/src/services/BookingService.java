@@ -1,13 +1,13 @@
 package services;
 
-import entities.exceptions.InvalidBookingDateException;
+import core.booking.InvalidBookingDateException;
 
 import java.io.IOException;
 
 /**
  * The interface Booking system services.
  */
-public interface BookingSystemServices {
+public interface BookingService {
     /**
      * Make booking.
      *

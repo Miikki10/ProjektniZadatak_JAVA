@@ -1,14 +1,14 @@
-package core;
+package app;
 
-import entities.booking.BuildBookingRecord;
-import entities.exceptions.InvalidBookingDateException;
-import entities.people.Client;
-import entities.people.Employee;
-import entities.booking.Booking;
-import entities.vehicles.Car;
-import entities.vehicles.CarFleetRepository;
-import services.BookingSystem;
-import utilities.input.InputHandler;
+import core.booking.BuildBookingRecord;
+import core.booking.InvalidBookingDateException;
+import core.people.Client;
+import core.people.Employee;
+import core.booking.Booking;
+import core.vehicles.Car;
+import core.vehicles.CarFleetRepository;
+import services.RentVehicleBookingService;
+import utilities.input.InputHandlerUtil;
 import utilities.menus.CarMenu;
 import utilities.menus.SearchMenu;
 
@@ -27,7 +27,7 @@ import java.util.Scanner;
  *
  * @author Bruno
  */
-public class RentACarSystem {
+public class RentVehicleSystem {
     private Map<Integer, Client> clients;
     private Map<Integer, Employee> employees;
     private Map<Integer, Car> cars;
@@ -42,7 +42,7 @@ public class RentACarSystem {
      *
      * @param capacity the capacity
      */
-    public RentACarSystem(int capacity){
+    public RentVehicleSystem(int capacity){
         this.clients = new HashMap<>();
         this.employees = new HashMap<>();
         this.cars = new HashMap<>();
@@ -59,8 +59,8 @@ public class RentACarSystem {
     public void initializeData(int count){
         System.out.println("--------------Unos podataka------------");
         for(int i = 0; i<count; i++){
-            //clients[i] = InputHandler.inputClient(unos);
-            Client tmpClient = InputHandler.inputClient(unos);
+            //clients[i] = InputHandlerUtil.inputClient(unos);
+            Client tmpClient = InputHandlerUtil.inputClient(unos);
             Integer clientId = tmpClient.getId();
 
             /**
@@ -75,13 +75,13 @@ public class RentACarSystem {
 
             clients.put(clientId, tmpClient);
 
-            //employees[i] = InputHandler.inputEmployee(unos);
+            //employees[i] = InputHandlerUtil.inputEmployee(unos);
             /**
              * Provjerava postoji li zaposlenik s tim objektom
              * Ako postoji ne dodajemo novi
              * !!!!!!!!!DODATI LOGBACK ovjde kad ćeš imat vremena
              */
-            Employee tmpEmployee = InputHandler.inputEmployee(unos);
+            Employee tmpEmployee = InputHandlerUtil.inputEmployee(unos);
             Integer employeeId = tmpEmployee.getId();
             if(employees.containsKey(employeeId)){
                 System.out.println("Greška: Klijent s ID-em " + clientId + " već postoji.");
@@ -90,13 +90,13 @@ public class RentACarSystem {
             employees.put(employeeId, tmpEmployee);
 
 
-            //cars[i] = InputHandler.inputCar(unos);
+            //cars[i] = InputHandlerUtil.inputCar(unos);
             /**
              * Provjerava postoji li automobil s tim objektom
              * Ako postoji ne dodajemo novi
              * !!!!!!!!!DODATI LOGBACK ovjde kad ćeš imat vremena
              */
-            Car tmpCar = InputHandler.inputCar(unos, fleetRepository);
+            Car tmpCar = InputHandlerUtil.inputCar(unos, fleetRepository);
             Integer carId = tmpCar.getId();
             if(cars.containsKey(carId)){
                 System.out.println("Greška: Klijent s ID-em " + carId + " već postoji.");
@@ -122,7 +122,7 @@ public class RentACarSystem {
         int numberOfBookings = unos.nextInt();
         unos.nextLine();
 
-        BookingSystem userBooking = new BookingSystem(
+        RentVehicleBookingService userBooking = new RentVehicleBookingService(
                 unos,
                 numberOfBookings,
                 clients,
@@ -141,18 +141,31 @@ public class RentACarSystem {
     public void startSearchMenu(){
         SearchMenu.selectSearchMenu(unos, clients, employees, cars, fleetRepository);
     }
+
+    /**
+     * Start available cars menu.
+     */
     public void startAvailableCarsMenu(){
         CarMenu.printAvailableCarsMenu(fleetRepository);
     }
 
+    /**
+     * Start car brand menu.
+     */
     public void startCarBrandMenu(){
         CarMenu.startCarBrandMenu(fleetRepository);
     }
 
+    /**
+     * Start inspection pairs.
+     */
     public void startInspectionPairs(){
         CarMenu.printPairsForInspection(fleetRepository);
     }
 
+    /**
+     * First last added car.
+     */
     public void firstLastAddedCar(){
         CarMenu.printInputFleetFirstLast(fleetRepository);
     }

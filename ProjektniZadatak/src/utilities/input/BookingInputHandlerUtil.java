@@ -1,11 +1,11 @@
 package utilities.input;
 
-import entities.people.Client;
-import entities.people.Employee;
-import entities.people.Person;
-import entities.booking.Booking;
-import entities.exceptions.InvalidBookingDateException;
-import entities.vehicles.Car;
+import core.people.Client;
+import core.people.Employee;
+import core.people.Person;
+import core.booking.Booking;
+import core.booking.InvalidBookingDateException;
+import core.vehicles.Car;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -14,15 +14,16 @@ import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import java.util.Scanner;
 
-import static entities.dates.DateUtils.inputLocalDate;
+import static utilities.DateUtils.inputLocalDate;
 
 /**
  * The type Booking input handler.
  */
-public class BookingInputHandler {
+public class BookingInputHandlerUtil {
     /**
      * Input person booking person.
      *
+     * @param <T>      the type parameter
      * @param scanner  the scanner
      * @param persons  the persons
      * @param roleName the role name

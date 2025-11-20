@@ -1,22 +1,22 @@
 package utilities.input;
 
-import entities.exceptions.InvalidVehicleDataException;
-import entities.people.Client;
-import entities.people.Employee;
-import entities.vehicles.Car;
-import entities.vehicles.CarFleetRepository;
+import core.vehicles.InvalidVehicleDataException;
+import core.people.Client;
+import core.people.Employee;
+import core.vehicles.Car;
+import core.vehicles.CarFleetRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
-import static entities.dates.DateUtils.inputLocalDate;
+import static utilities.DateUtils.inputLocalDate;
 
 /**
  * The type Input handler.
  */
-public class InputHandler {
+public class InputHandlerUtil {
 
     /**
      * Input client client.
@@ -61,7 +61,8 @@ public class InputHandler {
     /**
      * Input car car.
      *
-     * @param scanner the scanner
+     * @param scanner         the scanner
+     * @param fleetRepository the fleet repository
      * @return the car
      */
     public static Car inputCar(Scanner scanner, CarFleetRepository fleetRepository){

@@ -1,4 +1,4 @@
-package entities.exceptions;
+package core.vehicles;
 
 /**
  * The type Invalid vehicle data exception.

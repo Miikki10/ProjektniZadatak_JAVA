@@ -1,8 +1,6 @@
-package entities.people;
+package core.people;
 
-import java.lang.reflect.Array;
 import java.time.LocalDate;
-import java.util.Arrays;
 
 /**
  * The type Person.

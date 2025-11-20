@@ -1,6 +1,5 @@
-package entities.people;
+package core.people;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Optional;
@@ -12,6 +11,7 @@ public class PersonUtils {
     /**
      * Youngest person person.
      *
+     * @param <T>    the type parameter
      * @param people the people
      * @return the person
      */
@@ -32,6 +32,7 @@ public class PersonUtils {
     /**
      * Oldest person person.
      *
+     * @param <T>    the type parameter
      * @param people the people
      * @return the person
      */

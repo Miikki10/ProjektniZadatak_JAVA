@@ -1,10 +1,10 @@
 package app;
 
 
-import core.RentACarSystem;
-import entities.exceptions.InvalidBookingDateException;
+import core.booking.InvalidBookingDateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import utilities.DateUtils;
 
 import java.io.IOException;
 
@@ -22,10 +22,11 @@ public class Main{
      */
     static void main(String[] args){
 
+
         logger.trace("Entering main method.");
 
-        RentACarSystem app = new RentACarSystem(5);
-        logger.debug("RentACarSystem initialized with capacity 5.");
+        RentVehicleSystem app = new RentVehicleSystem(5);
+        logger.debug("RentVehicleSystem initialized with capacity 5.");
         app.initializeData(5);
         logger.debug("Initialized data with 5 vehicles.");
 

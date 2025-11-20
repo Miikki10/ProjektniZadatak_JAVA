@@ -1,4 +1,4 @@
-package entities.vehicles;
+package core.vehicles;
 
 /**
  * The interface Registered vehicles.
@@ -17,7 +17,14 @@ public sealed interface RegisteredVehicles permits Car {
      * @return the car brand model
      */
     String getCarBrandModel();
+
+    /**
+     * Gets full description.
+     *
+     * @return the full description
+     */
     String getFullDescription();
+
     /**
      * Get full description string.
      *

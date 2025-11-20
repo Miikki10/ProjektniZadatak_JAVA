@@ -1,4 +1,4 @@
-package entities.dates;
+package utilities;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -8,7 +8,9 @@ import java.util.Scanner;
 /**
  * The type Date utils.
  */
-public class DateUtils {
+public final class DateUtils {
+    private DateUtils(){};
+
     /**
      * Input local date local date.
      *

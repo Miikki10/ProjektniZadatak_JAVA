@@ -1,4 +1,4 @@
-package entities.booking;
+package core.booking;
 
 import java.time.LocalDate;
 

@@ -1,4 +1,4 @@
-package entities.exceptions;
+package core.booking;
 
 /**
  * The type Invalid booking date exception.

@@ -1,11 +1,11 @@
 package utilities.menus;
 
-import entities.people.Client;
-import entities.people.Employee;
-import entities.people.Person;
-import entities.people.PersonUtils;
-import entities.vehicles.Car;
-import entities.vehicles.CarFleetRepository;
+import core.people.Client;
+import core.people.Employee;
+import core.people.Person;
+import core.people.PersonUtils;
+import core.vehicles.Car;
+import core.vehicles.CarFleetRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,10 +82,11 @@ public class SearchMenu {
     /**
      * Select search menu.
      *
-     * @param scanner   the scanner
-     * @param clients   the clients
-     * @param employees the employees
-     * @param cars      the cars
+     * @param scanner         the scanner
+     * @param clients         the clients
+     * @param employees       the employees
+     * @param cars            the cars
+     * @param fleetRepository the fleet repository
      */
     public static void selectSearchMenu(Scanner scanner,
                                         Map<Integer, Client> clients,

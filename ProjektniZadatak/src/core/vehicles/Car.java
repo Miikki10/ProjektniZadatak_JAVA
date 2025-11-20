@@ -1,9 +1,7 @@
-package entities.vehicles;
+package core.vehicles;
 
 import java.math.BigDecimal;
 import java.util.Objects;
-
-import entities.exceptions.InvalidVehicleDataException;
 
 /**
  * The type Car.

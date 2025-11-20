@@ -1,8 +1,8 @@
-package entities.booking;
+package core.booking;
 
-import entities.people.Client;
-import entities.people.Employee;
-import entities.vehicles.Car;
+import core.people.Client;
+import core.people.Employee;
+import core.vehicles.Car;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -23,6 +23,7 @@ public class Booking {
 
     private BookingStatusEnum.BookingStatus bookingStatus;
 
+
     /**
      * Instantiates a new Booking.
      *
@@ -33,8 +34,6 @@ public class Booking {
      * @param endDate    the end date
      * @param totalPrice the total price
      */
-
-
     public Booking(Client client, Employee employee, Car car, LocalDate startDate, LocalDate endDate, BigDecimal totalPrice) {
         this.id = nextId;
         nextId++;
