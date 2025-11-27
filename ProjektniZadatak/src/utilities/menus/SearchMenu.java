@@ -7,10 +7,7 @@ import core.people.PersonUtils;
 import core.vehicles.Car;
 import core.vehicles.CarFleetRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 
 /**
@@ -109,12 +106,26 @@ public class SearchMenu {
                     }while(youngest != 0 && youngest != 1);
 
                     if(youngest==1){
-                        Person youngestClient = PersonUtils.youngestPerson(clients);
-                        System.out.println("Najmlađa osoba je "+ youngestClient.getName() + " - " + youngestClient.getDateOfBirth());
+                        Optional<? extends Client> youngestClient = PersonUtils.youngestPerson(clients);
+                        youngestClient.ifPresent(client -> {
+                            System.out.println("Najmlađa osoba je "+ client.getName() + " - " + client.getDateOfBirth());
+                        });
+                        if (youngestClient.isEmpty()) {
+                            System.out.println("Nema klijenata u sustavu.");
+                        }
                     }
                     else{
-                        Person oldestClient = PersonUtils.oldestPerson(clients);
-                        System.out.println("Najstarija osoba je "+ oldestClient.getName() + " - " + oldestClient.getDateOfBirth());
+                        Optional<? extends Client> oldestClient = PersonUtils.oldestPerson(clients);
+                        oldestClient.ifPresentOrElse(
+                                // AKO JE KLIENT PRISUTAN (isPresent)
+                                oldest -> {
+                                    System.out.println("Najstarija osoba je " + oldest.getName() + " - " + oldest.getDateOfBirth());
+                                },
+                                // AKO NIJE PRISUTAN (isEmpty)
+                                () -> {
+                                    System.out.println("Nema klijenata u sustavu za pretragu.");
+                                }
+                        );
                     }
                 }
                 case 2 -> {
@@ -127,12 +138,28 @@ public class SearchMenu {
                     }while(youngest != 0 && youngest != 1);
 
                     if(youngest==1){
-                        Person youngestEmployee = PersonUtils.youngestPerson(clients);
-                        System.out.println("Najmlađa osoba je "+ youngestEmployee.getName() + " - " + youngestEmployee.getDateOfBirth());
+                        Optional<? extends Employee> youngestEmployee = PersonUtils.youngestPerson(employees);
+
+                        youngestEmployee.ifPresentOrElse(
+                                // AKO JE ZAPOSLENIK PRISUTAN
+                                youngestE -> {
+                                    System.out.println("Najmlađa osoba je " + youngestE.getName() + " - " + youngestE.getDateOfBirth());
+                                },
+                                () -> {
+                                    System.out.println("Nema zaposlenika u sustavu za pretragu.");
+                                }
+                        );
                     }
                     else{
-                        Person oldestEmployee = PersonUtils.oldestPerson(clients);
-                        System.out.println("Najstarija osoba je "+ oldestEmployee.getName() + " - " + oldestEmployee.getDateOfBirth());
+                        Optional<? extends Employee> oldestEmployee = PersonUtils.oldestPerson(employees);
+                        oldestEmployee.ifPresentOrElse(
+                                oldestE -> {
+                                    System.out.println("Najstarija osoba je " + oldestE.getName() + " - " + oldestE.getDateOfBirth());
+                                },
+                                () -> {
+                                    System.out.println("Nema zaposlenika u sustavu za pretragu.");
+                                }
+                        );
                     }
                 }
                 case 3 -> {

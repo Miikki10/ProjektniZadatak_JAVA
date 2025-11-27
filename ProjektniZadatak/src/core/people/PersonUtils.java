@@ -15,16 +15,14 @@ public class PersonUtils {
      * @param people the people
      * @return the person
      */
-    public static <T extends Person>T youngestPerson(Map<Integer, T> people){
+    public static <T extends Person> Optional<? extends T> youngestPerson(Map<Integer,? extends T> people){
         if (people == null || people.isEmpty()) {
-            return null;
+            return Optional.empty();
         }
 
-        Optional<T> youngestPerson= people.values()
+        return people.values()
                 .stream()
                 .max(Comparator.comparing(Person::getDateOfBirth));
-
-        return youngestPerson.orElse(null);
         /*Arrays.sort(people, (p1, p2) -> p1.getDateOfBirth().compareTo(p2.getDateOfBirth()));
         return people[people.length-1];//najveći datum - najmlađa osoba*/
     }
@@ -36,18 +34,14 @@ public class PersonUtils {
      * @param people the people
      * @return the person
      */
-    public static <T extends Person>T oldestPerson(Map<Integer, T> people){
-        if (people == null || people.isEmpty()) {
-            return null;
+    public static <T extends Person> Optional<? extends T> oldestPerson(Map<Integer, ? extends T> people) {
+        if (people == null) {
+            return Optional.empty();
         }
 
-        Optional<T> oldestPerson = people.values()
+        return people.values()
                 .stream()
                 .min(Comparator.comparing(Person::getDateOfBirth));
-
-        return oldestPerson.orElse(null);
-        /*Arrays.sort(people, (p1, p2) -> p1.getDateOfBirth().compareTo(p2.getDateOfBirth()));
-        return people[0];//najmanji datum - najstarija osoba*/
     }
 
 }

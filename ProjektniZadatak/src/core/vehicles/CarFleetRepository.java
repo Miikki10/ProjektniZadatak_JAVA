@@ -18,14 +18,12 @@ public class CarFleetRepository {
      * Add car to fleet boolean.
      *
      * @param car the car
-     * @return ako je uspio dodati true, inače vraća false
      */
-    public boolean addCarToFleet(Car car){
+    public void addCarToFleet(Car car){
         boolean isAdded = fleet.add(car);
         if (!isAdded) {
             System.err.printf("Automobil s registracijom %s je već u floti (duplikat nije dodan).%n", car.getRegistration());
         }
-        return isAdded;
     }
 
     /**
@@ -50,13 +48,10 @@ public class CarFleetRepository {
      * @return the list
      */
     public List<Car> findByBrandModel(String name){
-        List<Car> matchingCars = new ArrayList<>();
-        for(Car car: fleet){
-            if(car.getCarBrandModel().equals(name)){
-                matchingCars.add(car);
-            }
-        }
-        return matchingCars;
+
+        return fleet.stream()
+                .filter(car -> car.getCarBrandModel().equals(name))
+                .toList();// toList vraća immutable umjesto collectors.toUnmodifiableList
     }
 
     /**
@@ -193,6 +188,20 @@ public class CarFleetRepository {
             }
         });
         System.out.println("----------------------------------------");
+    }
+
+    public List<String> getAllRegistrationsSortedMutable() {
+
+        return fleet.stream()
+                .map(Car::getRegistration)
+                .sorted()
+                .toList();
+    }
+
+    //vraća mutable listu
+    public Map<String, List<Car>> groupCarsByBrandModelMutable() {
+        return fleet.stream()
+                .collect(Collectors.groupingBy(Car::getCarBrandModel, Collectors.toList()));
     }
 }
 
