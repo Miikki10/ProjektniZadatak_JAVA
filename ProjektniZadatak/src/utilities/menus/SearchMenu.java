@@ -8,6 +8,7 @@ import core.vehicles.Car;
 import core.vehicles.CarFleetRepository;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -79,16 +80,12 @@ public class SearchMenu {
     /**
      * Select search menu.
      *
-     * @param scanner         the scanner
-     * @param clients         the clients
-     * @param employees       the employees
-     * @param cars            the cars
+     * @param scanner the scanner
+     * @param people the people
      * @param fleetRepository the fleet repository
      */
     public static void selectSearchMenu(Scanner scanner,
-                                        Map<Integer, Client> clients,
-                                        Map<Integer, Employee> employees,
-                                        Map<Integer, Car> cars,
+                                        List<Person> people,
                                         CarFleetRepository fleetRepository){
         boolean correctNumber = false;
         do{
@@ -98,6 +95,11 @@ public class SearchMenu {
                 case 1-> {
                     correctNumber = true;
                     int youngest = 0;
+
+                    List<Client> clients = people.stream()
+                            .filter(p -> p instanceof Client)
+                            .map(p -> (Client) p)
+                            .collect(Collectors.toList());
 
                     System.out.println("Odaberite operaciju pretraživanja klijenata");
                     do{
@@ -131,6 +133,11 @@ public class SearchMenu {
                 case 2 -> {
                     correctNumber = true;
                     int youngest = 0;
+
+                    List<Employee> employees = people.stream()
+                            .filter(p -> p instanceof Employee)
+                            .map(p -> (Employee) p)
+                            .collect(Collectors.toList());
                     System.out.println("Odaberite operaciju pretraživanja zaposlenika");
                     do{
                         System.out.println("Za pretraživanje najmlađeg 1, a za najstarijeg 0: ");

@@ -1,47 +1,57 @@
 package core.people;
 
+import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Map;
+import java.util.List;
 import java.util.Optional;
+import java.util.Map;
 
 /**
  * The type Person utils.
  */
 public class PersonUtils {
     /**
-     * Youngest person person.
+     * Finds the youngest person in a list.
      *
-     * @param <T>    the type parameter
-     * @param people the people
-     * @return the person
+     * @param <T>     The type of Person.
+     * @param people The list of people to search through.
+     * @return An Optional containing the youngest person, or an empty Optional if the list is null or empty.
      */
-    public static <T extends Person> Optional<? extends T> youngestPerson(Map<Integer,? extends T> people){
+    public static <T extends Person> Optional<T> youngestPerson(List<T> people){
         if (people == null || people.isEmpty()) {
             return Optional.empty();
         }
-
-        return people.values()
-                .stream()
-                .max(Comparator.comparing(Person::getDateOfBirth));
-        /*Arrays.sort(people, (p1, p2) -> p1.getDateOfBirth().compareTo(p2.getDateOfBirth()));
-        return people[people.length-1];//najveći datum - najmlađa osoba*/
+        // The youngest person has the latest (maximum) date of birth.
+        return people.stream().max(Comparator.comparing(Person::getDateOfBirth));
     }
 
     /**
-     * Oldest person person.
+     * Finds the youngest person in a map of people.
      *
-     * @param <T>    the type parameter
-     * @param people the people
-     * @return the person
+     * @param <T>    The type of Person.
+     * @param people The map of people to search through. The values of the map are the people.
+     * @return An Optional containing the youngest person, or an empty Optional if the map is null or empty.
      */
-    public static <T extends Person> Optional<? extends T> oldestPerson(Map<Integer, ? extends T> people) {
-        if (people == null) {
+    public static <T extends Person> Optional<T> youngestPerson(Map<Integer, ? extends T> people) {
+        if (people == null || people.isEmpty()) {
             return Optional.empty();
         }
+        return youngestPerson(new ArrayList<>(people.values()));
+    }
 
-        return people.values()
-                .stream()
-                .min(Comparator.comparing(Person::getDateOfBirth));
+    /**
+     * Finds the oldest person in a list.
+     *
+     * @param <T>     The type of Person.
+     * @param people The list of people to search through.
+     * @return An Optional containing the oldest person, or an empty Optional if the list is null or empty.
+     */
+    public static <T extends Person> Optional<T> oldestPerson(List<T> people) {
+        if (people == null || people.isEmpty()) {
+            return Optional.empty();
+        }
+        // The oldest person has the earliest (minimum) date of birth.
+        return people.stream().min(Comparator.comparing(Person::getDateOfBirth));
     }
 
 }

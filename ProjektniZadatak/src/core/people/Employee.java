@@ -1,12 +1,15 @@
 package core.people;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 
 /**
  * The type Employee.
  */
-public class Employee extends Person {
+public class Employee extends Person implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Override
     public String getRole(){

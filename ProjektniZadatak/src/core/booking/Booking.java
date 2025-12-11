@@ -4,14 +4,17 @@ import core.people.Client;
 import core.people.Employee;
 import core.vehicles.Car;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
  * The type Booking.
  */
-public class Booking {
-    private  static Integer nextId = 1;
+public class Booking implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    private static Integer nextId = 1;
 
     private final Integer id;
     private Client client;
@@ -35,8 +38,7 @@ public class Booking {
      * @param totalPrice the total price
      */
     public Booking(Client client, Employee employee, Car car, LocalDate startDate, LocalDate endDate, BigDecimal totalPrice) {
-        this.id = nextId;
-        nextId++;
+        this.id = nextId++;
         this.client = client;
         this.employee = employee;
         this.car = car;
@@ -45,6 +47,18 @@ public class Booking {
         this.totalPrice = totalPrice;
 
         this.bookingStatus = BookingStatusEnum.BookingStatus.PENDING;
+    }
+
+    /**
+     * Updates the nextId to be one greater than the provided id if it's higher.
+     * This should be called after loading data from a persistent source.
+     *
+     * @param id the id from a loaded booking
+     */
+    public static void updateNextId(Integer id) {
+        if (id >= nextId) {
+            nextId = id + 1;
+        }
     }
 
     /**

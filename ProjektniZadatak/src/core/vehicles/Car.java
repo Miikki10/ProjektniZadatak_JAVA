@@ -2,11 +2,14 @@ package core.vehicles;
 
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.io.Serializable;
 
 /**
  * The type Car.
  */
-public final class Car implements RegisteredVehicles {
+public final class Car implements RegisteredVehicles, Serializable {
+    private static final long serialVersionUID = 1L;
+
     private static Integer nextId = 1;
 
     private final Integer id;

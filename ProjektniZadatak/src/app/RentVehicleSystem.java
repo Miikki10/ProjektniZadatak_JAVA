@@ -5,6 +5,7 @@ import core.booking.InvalidBookingDateException;
 import core.people.Client;
 import core.people.Employee;
 import core.booking.Booking;
+import core.people.Person;
 import core.vehicles.Car;
 import core.vehicles.CarFleetRepository;
 import services.RentVehicleBookingService;
@@ -13,8 +14,8 @@ import utilities.menus.CarMenu;
 import utilities.menus.SearchMenu;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -28,82 +29,28 @@ import java.util.Scanner;
  * @author Bruno
  */
 public class RentVehicleSystem {
-    private Map<Integer, Client> clients;
-    private Map<Integer, Employee> employees;
-    private Map<Integer, Car> cars;
-    private Map<Integer, Booking> bookings;
+    private final List<Person> people;
+    private final List<Car> cars;
+    private final List<Booking> bookings;
     private BuildBookingRecord buildBookingRecord;
     private CarFleetRepository fleetRepository;
-    private Scanner unos = new Scanner(System.in);
 
 
     /**
-     * Instantiates a new Rent a car system.
+     * Instantiates a new Rent a car system with pre-loaded data.
      *
-     * @param capacity the capacity
+     * @param people   The list of all people (clients and employees).
+     * @param cars     The list of all cars.
+     * @param bookings The list of all bookings.
      */
-    public RentVehicleSystem(int capacity){
-        this.clients = new HashMap<>();
-        this.employees = new HashMap<>();
-        this.cars = new HashMap<>();
-        this.bookings = new HashMap<>();
+    public RentVehicleSystem(List<Person> people, List<Car> cars, List<Booking> bookings){
+        this.people = people;
+        this.cars = cars;
+        this.bookings = bookings;
         this.buildBookingRecord = new BuildBookingRecord();
         this.fleetRepository = new CarFleetRepository();
-    }
-
-    /**
-     * Initialize data.
-     *
-     * @param count the count
-     */
-    public void initializeData(int count){
-        System.out.println("--------------Unos podataka------------");
-        for(int i = 0; i<count; i++){
-            //clients[i] = InputHandlerUtil.inputClient(unos);
-            Client tmpClient = InputHandlerUtil.inputClient(unos);
-            Integer clientId = tmpClient.getId();
-
-            /**
-             * Provjerava postoji li klijetn s tim objektom
-             * Ako postoji ne dodajemo novi
-             * !!!!!!!!!DODATI LOGBACK ovjde kad ćeš imat vremena
-             */
-            if (clients.containsKey(clientId)) {
-                System.out.println("Greška: Klijent s ID-em " + clientId + " već postoji.");
-                return;
-            }
-
-            clients.put(clientId, tmpClient);
-
-            //employees[i] = InputHandlerUtil.inputEmployee(unos);
-            /**
-             * Provjerava postoji li zaposlenik s tim objektom
-             * Ako postoji ne dodajemo novi
-             * !!!!!!!!!DODATI LOGBACK ovjde kad ćeš imat vremena
-             */
-            Employee tmpEmployee = InputHandlerUtil.inputEmployee(unos);
-            Integer employeeId = tmpEmployee.getId();
-            if(employees.containsKey(employeeId)){
-                System.out.println("Greška: Klijent s ID-em " + clientId + " već postoji.");
-                return;
-            }
-            employees.put(employeeId, tmpEmployee);
-
-
-            //cars[i] = InputHandlerUtil.inputCar(unos);
-            /**
-             * Provjerava postoji li automobil s tim objektom
-             * Ako postoji ne dodajemo novi
-             * !!!!!!!!!DODATI LOGBACK ovjde kad ćeš imat vremena
-             */
-            Car tmpCar = InputHandlerUtil.inputCar(unos, fleetRepository);
-            Integer carId = tmpCar.getId();
-            if(cars.containsKey(carId)){
-                System.out.println("Greška: Klijent s ID-em " + carId + " već postoji.");
-                return;
-            }
-            cars.put(carId, tmpCar);
-        }
+        // Populate the fleet repository with cars loaded from JSON
+        this.cars.forEach(this.fleetRepository::addCarToFleet);
     }
 
     /**
@@ -117,16 +64,32 @@ public class RentVehicleSystem {
      * @throws InvalidBookingDateException the invalid booking date exception
      * @throws IOException                 the io exception
      */
-    public void startBooking() throws InvalidBookingDateException, IOException {
+    public void startBooking(Scanner scanner) throws InvalidBookingDateException, IOException {
+        // PROVJERA 1: Postoji li ijedan zaposlenik u sustavu?
+        boolean employeeExists = this.people.stream().anyMatch(person -> person instanceof Employee);
+        if (!employeeExists) {
+            System.out.println("\n!!! UPOZORENJE: U sustavu ne postoji nijedan zaposlenik.");
+            System.out.println("Molimo, prvo dodajte zaposlenika putem opcije '2' u glavnom izborniku prije kreiranja rezervacije.");
+            return; // Prekini izvođenje metode i vrati se u glavni izbornik
+        }
+
+        // PROVJERA 2: Postoji li ijedan klijent u sustavu?
+        boolean clientExists = this.people.stream().anyMatch(person -> person instanceof Client);
+        if (!clientExists) {
+            System.out.println("\n!!! UPOZORENJE: U sustavu ne postoji nijedan klijent.");
+            System.out.println("Molimo, prvo dodajte klijenta putem opcije '1' -> '1' (Unos nove rezervacije) prije nastavka.");
+            // Ovdje bi se mogao dodati i direktan unos klijenta ako želimo
+            return;
+        }
+
         System.out.println("Unesite koliko rezervacija želite napraviti: ");
-        int numberOfBookings = unos.nextInt();
-        unos.nextLine();
+        int numberOfBookings = scanner.nextInt();
+        scanner.nextLine();
 
         RentVehicleBookingService userBooking = new RentVehicleBookingService(
-                unos,
+                scanner,
                 numberOfBookings,
-                clients,
-                employees,
+                people,
                 cars,
                 bookings,
                 buildBookingRecord
@@ -138,8 +101,8 @@ public class RentVehicleSystem {
     /**
      * Start search menu.
      */
-    public void startSearchMenu(){
-        SearchMenu.selectSearchMenu(unos, clients, employees, cars, fleetRepository);
+    public void startSearchMenu(Scanner scanner){
+        SearchMenu.selectSearchMenu(scanner, people, fleetRepository);
     }
 
     /**
@@ -152,8 +115,8 @@ public class RentVehicleSystem {
     /**
      * Start car brand menu.
      */
-    public void startCarBrandMenu(){
-        CarMenu.startCarBrandMenu(fleetRepository);
+    public void startCarBrandMenu(Scanner scanner){
+        CarMenu.startCarBrandMenu(fleetRepository, scanner);
     }
 
     /**
@@ -168,5 +131,34 @@ public class RentVehicleSystem {
      */
     public void firstLastAddedCar(){
         CarMenu.printInputFleetFirstLast(fleetRepository);
+    }
+
+    /**
+     * Adds a new employee to the system by taking user input.
+     *
+     * @throws IOException if an I/O error occurs.
+     */
+    public void addNewEmployee(Scanner scanner) throws IOException {
+        System.out.println("--- Kreiranje novog zaposlenika ---");
+        Employee newEmployee = InputHandlerUtil.inputEmployee(scanner);
+        this.people.add(newEmployee);
+        System.out.println("Novi zaposlenik uspješno dodan.");
+    }
+
+    public void addNewClient(Scanner scanner) throws IOException {
+        System.out.println("--- Kreiranje novog klijenta ---");
+        Client newClient = InputHandlerUtil.inputClient(scanner);
+        this.people.add(newClient);
+        System.out.println("Novi klijent uspješno dodan.");
+    }
+
+    public void addNewCar(Scanner scanner) throws IOException {
+        System.out.println("--- Kreiranje novog automobila ---");
+        Car newCar = InputHandlerUtil.inputCar(scanner);
+        boolean addedToFleet = this.fleetRepository.addCarToFleet(newCar);
+        if (addedToFleet) {
+            this.cars.add(newCar);
+            System.out.println("Novi automobil uspješno dodan.");
+        }
     }
 }

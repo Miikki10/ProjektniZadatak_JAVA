@@ -4,7 +4,6 @@ import core.vehicles.InvalidVehicleDataException;
 import core.people.Client;
 import core.people.Employee;
 import core.vehicles.Car;
-import core.vehicles.CarFleetRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -62,10 +61,9 @@ public class InputHandlerUtil {
      * Input car car.
      *
      * @param scanner         the scanner
-     * @param fleetRepository the fleet repository
      * @return the car
      */
-    public static Car inputCar(Scanner scanner, CarFleetRepository fleetRepository){
+    public static Car inputCar(Scanner scanner){
         while(true){
             try{
                 System.out.println("Unesi vozilo: ");
@@ -157,7 +155,7 @@ public class InputHandlerUtil {
                     }
                 }
 
-                Car newCar = new Car.Builder()
+                return new Car.Builder()
                         .setBrand(brand)
                         .setModel(model)
                         .setRegistration(registration)
@@ -167,10 +165,6 @@ public class InputHandlerUtil {
                         .setColor(carColor)
                         .setPassengerCapacity(passengerCapacity)
                         .build();
-
-                fleetRepository.addCarToFleet(newCar);
-
-                return newCar;
 
             }catch (InvalidVehicleDataException e){
                 System.out.println("Greška u podacima: " + e.getMessage() + " Molimo, pokušajte ponovno.\n");

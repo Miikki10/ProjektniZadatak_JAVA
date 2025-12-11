@@ -18,12 +18,14 @@ public class CarFleetRepository {
      * Add car to fleet boolean.
      *
      * @param car the car
+     * @return true if car was added, false if it was a duplicate
      */
-    public void addCarToFleet(Car car){
+    public boolean addCarToFleet(Car car){
         boolean isAdded = fleet.add(car);
         if (!isAdded) {
             System.err.printf("Automobil s registracijom %s je već u floti (duplikat nije dodan).%n", car.getRegistration());
         }
+        return isAdded;
     }
 
     /**
@@ -204,4 +206,3 @@ public class CarFleetRepository {
                 .collect(Collectors.groupingBy(Car::getCarBrandModel, Collectors.toList()));
     }
 }
-
