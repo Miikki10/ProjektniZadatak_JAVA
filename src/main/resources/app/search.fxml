@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.geometry.Insets?>
+
+<TabPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+         fx:controller="app.SearchController">
+    <tabs>
+        <Tab text="Search Clients">
+            <VBox spacing="10" style="-fx-padding: 10;">
+                <TextField fx:id="clientSearchField" promptText="Search by name..."/>
+                <TableView fx:id="clientTableView">
+                    <columns>
+                        <TableColumn text="Name">
+                            <cellValueFactory><PropertyValueFactory property="name" /></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="Email">
+                            <cellValueFactory><PropertyValueFactory property="email" /></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="Date of Birth">
+                            <cellValueFactory><PropertyValueFactory property="dateOfBirth" /></cellValueFactory>
+                        </TableColumn>
+                    </columns>
+                </TableView>
+            </VBox>
+        </Tab>
+        <Tab text="Search Cars">
+            <VBox spacing="10" style="-fx-padding: 10;">
+                <TextField fx:id="carSearchField" promptText="Search by brand or model..."/>
+                <TableView fx:id="carTableView">
+                    <columns>
+                        <TableColumn text="Brand">
+                            <cellValueFactory><PropertyValueFactory property="brand" /></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="Model">
+                            <cellValueFactory><PropertyValueFactory property="model" /></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="Year">
+                            <cellValueFactory><PropertyValueFactory property="year" /></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="Price per Day">
+                            <cellValueFactory><PropertyValueFactory property="pricePerDay" /></cellValueFactory>
+                        </TableColumn>
+                    </columns>
+                </TableView>
+            </VBox>
+        </Tab>
+    </tabs>
+</TabPane>

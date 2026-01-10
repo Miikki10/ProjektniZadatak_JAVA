@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
+<?import javafx.geometry.Insets?>
+
+<GridPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="app.AddCarController" hgap="10" vgap="10">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <children>
+        <Label text="Brand:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="brandField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Model:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="modelField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Year:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="yearField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label text="Price per Day:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <TextField fx:id="pricePerDayField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+        <Label text="Registration:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <TextField fx:id="registrationField" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+        <Label text="Color:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+        <TextField fx:id="colorField" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+        <Label text="Passenger Capacity:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+        <TextField fx:id="passengerCapacityField" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+        <Button text="Add Car" onAction="#addCar" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+    </children>
+</GridPane>
